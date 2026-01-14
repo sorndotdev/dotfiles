@@ -35,6 +35,11 @@ in
         syntaxHighlighting.enable = true;
         initContent = ''
           bindkey '^f' autosuggest-accept
+          # shift/option+arrows jump words (CSI-u codes sent by wezterm)
+          bindkey $'\x1b[1;2D' backward-word
+          bindkey $'\x1b[1;2C' forward-word
+          bindkey $'\x1b[1;3D' backward-word
+          bindkey $'\x1b[1;3C' forward-word
         '';
         shellAliases = {
             ".." = "cd ..";
