@@ -14,6 +14,7 @@
             AppleShowAllExtensions = true;
         };
         finder.FXPreferredViewStyle = "Nlsv"; # list view
+        finder.AppleShowAllFiles = true;      # show hidden files
         finder.CreateDesktop = false;         # clean desktop
         trackpad.Clicking = false;            # disable tap to click
     };
