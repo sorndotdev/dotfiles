@@ -65,6 +65,25 @@ for entry in "$home_src"/* "$home_src"/.[!.]* "$home_src"/..?*; do
     link_entry "$entry" "$dest/$base"
 done
 
+# Claude Code hooks that flag a WezTerm tab when Claude finishes or needs input.
+# Merged into ~/.claude/settings.json (not linked: Claude rewrites that file).
+install_claude_hooks() {
+    hooks="$home_src/.config/wezterm/claude-hooks.json"
+    settings="$dest/.claude/settings.json"
+    if ! command -v jq >/dev/null 2>&1; then
+        printf 'jq not found: skipping Claude hooks (%s)\n' "$hooks"
+        return 0
+    fi
+    mkdir -p "$dest/.claude"
+    [ -f "$settings" ] || printf '{}\n' > "$settings"
+    tmp=$(mktemp)
+    jq --slurpfile h "$hooks" '.hooks = ((.hooks // {}) + $h[0].hooks)' "$settings" > "$tmp"
+    mv "$tmp" "$settings"
+    printf 'merged     %s into %s\n' "$(basename "$hooks")" "$settings"
+}
+
+install_claude_hooks
+
 install_deps() {
     if [ "$(uname -s)" != "Darwin" ]; then
         printf '\nNot macOS: skipping dependency install. See README.md for the tool list.\n'
