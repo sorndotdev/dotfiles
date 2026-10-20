@@ -55,7 +55,16 @@ link_entry() {
 
 for entry in "$home_src"/.config/*; do
     [ -e "$entry" ] || continue
-    link_entry "$entry" "$dest/.config/$(basename "$entry")"
+    base=$(basename "$entry")
+    if [ "$base" = opencode ]; then
+        # Link only the plugin so an existing opencode config is left alone.
+        for plugin in "$entry"/plugin/*; do
+            [ -e "$plugin" ] || continue
+            link_entry "$plugin" "$dest/.config/opencode/plugin/$(basename "$plugin")"
+        done
+        continue
+    fi
+    link_entry "$entry" "$dest/.config/$base"
 done
 
 for entry in "$home_src"/* "$home_src"/.[!.]* "$home_src"/..?*; do

@@ -1,13 +1,13 @@
 {
   "hooks": {
     "Stop": [
-      { "hooks": [{ "type": "command", "command": "~/.config/wezterm/claude-attention.sh set" }] }
+      { "hooks": [{ "type": "command", "command": "~/.config/wezterm/attention.sh set" }] }
     ],
     "Notification": [
-      { "hooks": [{ "type": "command", "command": "~/.config/wezterm/claude-attention.sh set" }] }
+      { "hooks": [{ "type": "command", "command": "~/.config/wezterm/attention.sh set" }] }
     ],
     "UserPromptSubmit": [
-      { "hooks": [{ "type": "command", "command": "~/.config/wezterm/claude-attention.sh clear" }] }
+      { "hooks": [{ "type": "command", "command": "~/.config/wezterm/attention.sh clear" }] }
     ]
   }
 }
