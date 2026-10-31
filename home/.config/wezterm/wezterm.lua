@@ -13,7 +13,7 @@ config.keys = {
   { key = 'RightArrow', mods = 'SHIFT', action = wezterm.action.SendString('\x1b[1;2C') },
 }
 
--- Claude Code / opencode attention: a hook sets the `claude_attention` user
+-- Claude Code attention: a hook sets the `claude_attention` user
 -- var when the agent finishes or needs input. Play a sound unless the pane is
 -- in view, paint its tab red until it is looked at.
 local ATTENTION_SOUND = wezterm.config_dir .. '/sounds/damage.mp3'
