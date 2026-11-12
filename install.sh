@@ -98,7 +98,7 @@ install_deps() {
 
     printf '\nInstalling dependencies with Homebrew...\n'
     brew install --cask wezterm font-departure-mono claude-code
-    brew install neovim starship plantuml imagemagick
+    brew install neovim tree-sitter-cli starship plantuml imagemagick
 }
 
 if [ "$with_deps" = 1 ]; then

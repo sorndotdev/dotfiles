@@ -1,4 +1,8 @@
-vim.keymap.set('n', '<Esc>', ':w<CR>', { desc = 'Save' })
+-- Files and Oil (acwrite: saving applies its changes). The tree, test panels
+-- and terminals can't be written.
+vim.keymap.set('n', '<Esc>', function()
+  if vim.bo.buftype == '' or vim.bo.buftype == 'acwrite' then vim.cmd('write') end
+end, { desc = 'Save' })
 vim.keymap.set('n', '<C-a>', 'ggVg', { desc = 'Select All' })
 
 for _, mode in ipairs({ 'i', 'n', 'c' }) do
@@ -8,12 +12,23 @@ end
 
 vim.cmd([[ xnoremap <expr> p 'pgv"'.v:register.'y' ]])
 
-vim.keymap.set('i', '<Tab>', function()
-  return vim.fn.pumvisible() == 1 and '<C-n>' or '<Tab>'
-end, { expr = true, desc = 'Next completion' })
-vim.keymap.set('i', '<S-Tab>', function()
-  return vim.fn.pumvisible() == 1 and '<C-p>' or '<S-Tab>'
-end, { expr = true, desc = 'Previous completion' })
-vim.keymap.set('i', '<CR>', function()
-  return vim.fn.pumvisible() == 1 and '<C-y>' or '<CR>'
-end, { expr = true, desc = 'Accept completion' })
+-- nvim's built-in gr* LSP maps would make `gr` (Find Usages) wait for a second key.
+for _, lhs in ipairs({ 'grr', 'grn', 'gra', 'gri', 'grt', 'grx' }) do
+  for _, mode in ipairs({ 'n', 'x' }) do
+    pcall(vim.keymap.del, mode, lhs)
+  end
+end
+
+-- Cmd-[ / Cmd-] go back / forward, like IntelliJ. WezTerm sends them as
+-- <D-[> / <D-]>, but only to a pane whose `in_nvim` user var is set.
+vim.keymap.set('n', '<D-[>', '<C-o>', { desc = 'Back' })
+vim.keymap.set('n', '<D-]>', '<C-i>', { desc = 'Forward' })
+
+local function set_in_nvim(value)
+  vim.api.nvim_ui_send(('\027]1337;SetUserVar=in_nvim=%s\007'):format(vim.base64.encode(value)))
+end
+vim.api.nvim_create_autocmd({ 'VimEnter', 'VimResume' }, { callback = function() set_in_nvim('1') end })
+vim.api.nvim_create_autocmd({ 'VimLeavePre', 'VimSuspend' }, { callback = function() set_in_nvim('') end })
+
+-- :qq quits all, as :q quits one window.
+vim.cmd([[cnoreabbrev <expr> qq getcmdtype() == ':' && getcmdline() ==# 'qq' ? 'qa' : 'qq']])
