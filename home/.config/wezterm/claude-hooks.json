@@ -8,6 +8,9 @@
     ],
     "UserPromptSubmit": [
       { "hooks": [{ "type": "command", "command": "~/.config/wezterm/attention.sh clear" }] }
+    ],
+    "SessionStart": [
+      { "hooks": [{ "type": "command", "command": "~/.config/wezterm/claude-session.sh" }] }
     ]
   }
 }
