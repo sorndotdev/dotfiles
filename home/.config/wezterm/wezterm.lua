@@ -32,7 +32,7 @@ table.insert(config.keys, { key = ']', mods = 'CMD', action = nvim_key('\x1b[93;
 -- Claude Code attention: a hook sets the `claude_attention` user
 -- var when the agent finishes or needs input. Play a sound unless the pane is
 -- in view, paint its tab red until it is looked at.
-local ATTENTION_SOUND = wezterm.config_dir .. '/sounds/damage.mp3'
+local ATTENTION_SOUND = '/System/Library/Sounds/Ping.aiff'
 
 local function pane_in_view(window, pane)
   return window:is_focused() and window:active_tab():tab_id() == pane:tab():tab_id()
